@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Northstar – Onboarding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00cec9;
+      --bg-light: #ffffff;
+      --bg-dark: #1e1e2f;
+      --text-light: #333;
+      --text-dark: #f0f0f0;
+    }
+
+    html[data-theme="dark"] {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg-light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      width: min(90%, 600px);
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    html[data-theme="dark"] .container {
+      background: #2c2c3f;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .step {
+      display: none;
+      flex-direction: column;
+    }
+
+    .step.active {
+      display: flex;
+    }
+
+    label {
+      font-weight: 600;
+      margin: 12px 0 6px;
+    }
+
+    input, select {
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #01b4b0;
+    }
+
+    #progress {
+      height: 8px;
+      background: #ddd;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    #progress-bar {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease-in-out;
+    }
+
+    .avatar-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-top: 12px;
+      display: none;
+      border: 2px solid #ccc;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 2px solid #ccc;
+      padding: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <button id="theme-toggle">🌙 Dark Mode</button>
+    <div id="progress"><div id="progress-bar"></div></div>
+
+    <form id="onboardingForm" enctype="multipart/form-data">
+      <div class="step active">
+        <h2>👋 What's your full name?</h2>
+        <input type="text" name="fullName" required />
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>📧 What's your email?</h2>
+        <input type="email" name="email" required />
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>🔒 Create a password</h2>
+        <input type="password" name="password" required />
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>🖼 Upload a profile picture</h2>
+        <input type="file" id="avatar" accept="image/*" onchange="previewAvatar()" />
+        <img id="avatarPreview" class="avatar-preview" />
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>🎯 What’s your top focus?</h2>
+        <select name="focusArea">
+          <option>Faith</option><option>Fitness</option><option>Finance</option>
+          <option>Career</option><option>Habits</option><option>Mental Clarity</option>
+        </select>
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>🙏 What’s your belief system?</h2>
+        <select name="faith">
+          <option>Islam</option><option>Christianity</option><option>Spiritual</option>
+          <option>Atheist</option><option>Other</option><option>Prefer not to say</option>
+        </select>
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>💼 What’s your current job?</h2>
+        <input type="text" name="careerFrom" placeholder="e.g. Student" />
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>🚀 What job are you aiming for?</h2>
+        <input type="text" name="careerTo" placeholder="e.g. Software Engineer" />
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>⏰ What best describes your schedule?</h2>
+        <select name="schedule">
+          <option>Morning person</option><option>Night owl</option>
+          <option>Work from home</option><option>Shift worker</option>
+        </select>
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>🧠 What’s your preferred coaching style?</h2>
+        <select name="coaching">
+          <option>Strict</option><option>Gentle</option><option>Organized</option>
+        </select>
+        <button type="button" onclick="nextStep()">Next</button>
+      </div>
+
+      <div class="step">
+        <h2>✅ Final step</h2>
+        <div class="checkbox">
+          <input type="checkbox" name="consent" required />
+          <label>I agree to store my data and profile image for personalization.</label>
+        </div>
+        <button type="submit">Finish & Launch 🚀</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll('.step');
+    const progressBar = document.getElementById('progress-bar');
+    const form = document.getElementById('onboardingForm');
+    const themeToggle = document.getElementById("theme-toggle");
+    let currentStep = 0;
+
+    function nextStep() {
+      steps[currentStep].classList.remove('active');
+      currentStep++;
+      steps[currentStep].classList.add('active');
+      progressBar.style.width = `${(currentStep / (steps.length - 1)) * 100}%`;
+    }
+
+    function previewAvatar() {
+      const file = document.getElementById("avatar").files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.getElementById("avatarPreview");
+        img.src = e.target.result;
+        img.style.display = "block";
+        localStorage.setItem("avatarImage", e.target.result);
+      }
+      if (file) reader.readAsDataURL(file);
+    }
+
+    themeToggle.onclick = () => {
+      const html = document.documentElement;
+      const current = html.getAttribute("data-theme");
+      const next = current === "light" ? "dark" : "light";
+      html.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      themeToggle.textContent = next === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+    };
+
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        themeToggle.textContent = savedTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+      }
+    };
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      localStorage.setItem("userName", data.fullName);
+      localStorage.setItem("userEmail", data.email);
+      localStorage.setItem("careerFrom", data.careerFrom);
+      localStorage.setItem("careerTo", data.careerTo);
+      localStorage.setItem("userResponses", JSON.stringify([
+        data.focusArea, data.faith, data.schedule, data.coaching
+      ]));
+      localStorage.setItem("onboardingComplete", "true");
+
+      alert("🎉 Welcome to Northstar, " + data.fullName + "!");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

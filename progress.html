@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Northstar – Progress Calendar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-bg: #F8F8FC;
+      --primary: #FEECBA;
+      --card-bg: #ffffff;
+      --highlight: #EFECFE;
+      --secondary: #D6D0FD;
+      --accent: #00cec9;
+      --fc-border-color: #ddd;
+      --color-gray-200: #e4e7ec;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--main-bg);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      margin-left: 240px;
+    }
+
+    aside {
+      width: 240px;
+      background-color: #1e1e2f;
+      height: 100vh;
+      padding: 30px 20px;
+      color: #fff;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    aside h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    aside nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    aside nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      color: #ccc;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    aside nav a:hover {
+      background-color: #2d2d44;
+      color: #ffffff;
+      transform: translateX(4px);
+      box-shadow: 0 0 10px rgba(0, 206, 201, 0.5);
+    }
+
+    aside nav a.active {
+      background-color: var(--accent);
+      color: #1e1e2f;
+      font-weight: 600;
+    }
+
+    .main {
+      margin-left: 260px;
+      padding: 40px 30px;
+      flex: 1;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+      margin-bottom: 35px;
+      transition: all 0.3s ease;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .calendar-day {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .fc table {
+      border-collapse: collapse;
+      font-size: 1em;
+    }
+
+    .fc td, .fc th {
+      padding: 0;
+      vertical-align: top;
+      border: 1px solid var(--fc-border-color);
+    }
+
+    .fc-theme-standard td, .fc-theme-standard .fc-scrollgrid {
+      border-color: var(--color-gray-200) !important;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>Northstar</h2>
+    <nav>
+      <a href="index.html"><span>📋</span> Dashboard</a>
+      <a href="progress.html" class="active"><span>📊</span> Progress</a>
+      <a href="#"><span>🧘</span> Coach</a>
+      <a href="#"><span>🧠</span> Journal</a>
+      <a href="#"><span>⚙️</span> Settings</a>
+    </nav>
+  </aside>
+
+  <header>
+    <div>
+      <h2>Hi, Mohamed 👋</h2>
+      <p>Progress Calendar Overview</p>
+    </div>
+    <img src="avatar.jpg" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%;" />
+  </header>
+
+  <div class="main">
+    <div class="card">
+      <h2>📆 Monthly Calendar</h2>
+      <div class="calendar" id="calendar"></div>
+    </div>
+  </div>
+
+  <script>
+    // Generate current month's calendar dynamically
+    const calendar = document.getElementById("calendar");
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Fill blank cells at the beginning of the month grid
+    for (let i = 0; i < firstDay; i++) {
+      const blank = document.createElement("div");
+      blank.className = "calendar-day";
+      calendar.appendChild(blank);
+    }
+
+    // Fill each day with a calendar box
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayBox = document.createElement("div");
+      dayBox.className = "calendar-day";
+      dayBox.innerText = day;
+      calendar.appendChild(dayBox);
+    }
+  </script>
+</body>
+</html>

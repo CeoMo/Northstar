@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Northstar – Daily Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Basic styling for body and layout */
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+    }
+
+    /* Sidebar styling */
+    aside {
+      width: 240px;
+      background-color: #1e1e2f;
+      height: 100vh;
+      padding: 30px 20px;
+      color: #fff;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    aside h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    aside nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    aside nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      color: #ccc;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    aside nav a:hover {
+      background-color: #2d2d44;
+      color: #ffffff;
+      transform: translateX(4px);
+      box-shadow: 0 0 10px rgba(0, 206, 201, 0.5);
+    }
+
+    aside nav a.active {
+      background-color: #00cec9;
+      color: #1e1e2f;
+      font-weight: 600;
+    }
+
+    /* Main dashboard section */
+    .main {
+      margin-left: 260px;
+      padding: 40px 30px;
+      flex: 1;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+      margin-bottom: 35px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h1, .card h2 {
+      margin-bottom: 18px;
+      color: #2d3436;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .task input[type="checkbox"] {
+      margin-right: 14px;
+      transform: scale(1.3);
+      accent-color: #00cec9;
+    }
+
+    .progress-bar-container {
+      background: #dfe6e9;
+      height: 12px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #00cec9;
+      transition: width 0.4s ease;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      resize: vertical;
+      font-size: 15px;
+      background: #fefefe;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge-group span {
+      background: #ecf0f1;
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .badge-group span:hover {
+      background: #d0ece7;
+      cursor: pointer;
+    }
+
+    .quote-box {
+      font-style: italic;
+      padding: 20px;
+      background: #fff9e6;
+      border-left: 5px solid #f39c12;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside>
+    <h2>Northstar</h2>
+    <nav>
+      <a href="#" class="active"><span>📋</span> Dashboard</a>
+      <a href="progress.html"><span>📊</span> Progress</a>
+      <a href="#"><span>🧘</span> Coach</a>
+      <a href="#"><span>🧠</span> Journal</a>
+      <a href="#"><span>⚙️</span> Settings</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Welcome Header -->
+    <div class="card">
+      <h1>Welcome, <span id="userName">Mohamed</span> 👋</h1>
+      <div class="date" id="date"></div>
+    </div>
+
+    <!-- Daily Checklist -->
+    <div class="card">
+      <h2>✨ Daily Intentions</h2>
+      <p>Stay aligned with your goals by checking off these simple daily wins:</p>
+      <div class="task"><input type="checkbox" onchange="updateProgress()"><label>Pray Fajr</label></div>
+      <div class="task"><input type="checkbox" onchange="updateProgress()"><label>30-min Workout</label></div>
+      <div class="task"><input type="checkbox" onchange="updateProgress()"><label>Review Budget</label></div>
+      <div class="task"><input type="checkbox" onchange="updateProgress()"><label>Journal 3 Things You're Grateful For</label></div>
+      <div class="task"><input type="checkbox" onchange="updateProgress()"><label>Read 10 Pages</label></div>
+    </div>
+
+    <!-- Progress Bars -->
+    <div class="card">
+      <h2>📊 Progress Overview</h2>
+      <strong>Faith</strong>
+      <div class="progress-bar-container"><div class="progress-bar" id="faithBar" style="width: 80%"></div></div>
+      <strong>Fitness</strong>
+      <div class="progress-bar-container"><div class="progress-bar" id="fitnessBar" style="width: 60%"></div></div>
+      <strong>Finance</strong>
+      <div class="progress-bar-container"><div class="progress-bar" id="financeBar" style="width: 45%"></div></div>
+    </div>
+
+    <!-- Motivation and Reflection Section -->
+    <div class="card">
+      <h2>🧘 Coach Reflection</h2>
+      <p><em>"You're on a 3-day streak! Take a breath. Reflect and honor your progress."</em></p>
+    </div>
+
+    <!-- Journal Input -->
+    <div class="card">
+      <h2>🧠 Reflection Journal</h2>
+      <textarea placeholder="What was your biggest win today? What are you grateful for?"></textarea>
+    </div>
+
+    <!-- Tags/Modules -->
+    <div class="card">
+      <h2>🌱 Active Modules</h2>
+      <div class="badge-group">
+        <span>💼 Career</span>
+        <span>💰 Finance</span>
+        <span>🧎 Faith</span>
+        <span>💪 Fitness</span>
+        <span>🧠 Habits</span>
+      </div>
+    </div>
+
+    <!-- Productivity Tools Suggestions -->
+    <div class="card">
+      <h2>🎧 Tools You Might Use</h2>
+      <div class="badge-group">
+        <span>📖 Quran/Bible App</span>
+        <span>📓 Notion</span>
+        <span>🎧 Calm Music</span>
+        <span>📈 Budget Tracker</span>
+      </div>
+    </div>
+
+    <!-- Motivational Quote -->
+    <div class="card quote-box">
+      “Your mind will always believe everything you tell it. Feed it faith. Feed it truth. Feed it with love.”
+    </div>
+
+    <!-- AI Plan Output -->
+    <div class="card" id="aiPlanCard">
+      <h2>🧠 Your AI-Generated Plan</h2>
+      <pre id="planContent">Loading your personalized routine...</pre>
+    </div>
+  </div>
+</body>
+</html>
